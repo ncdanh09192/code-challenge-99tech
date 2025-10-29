@@ -1,0 +1,16 @@
+node_modules
+npm-debug.log
+dist
+.git
+.gitignore
+README.md
+ARCHITECTURE.md
+SEQUENCE_DIAGRAMS.md
+DOCKER_SETUP.md
+POSTMAN_COLLECTION.json
+.DS_Store
+*.db
+.env
+.env.local
+coverage
+.nyc_output

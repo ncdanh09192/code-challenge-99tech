@@ -1,0 +1,370 @@
+{
+  "info": {
+    "name": "Live Scoreboard System - API Collection",
+    "description": "Complete Postman collection for testing Live Scoreboard API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "item": [
+        {
+          "name": "Server Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
+            },
+            "description": "Check if server is running"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Leaderboard - Read",
+      "item": [
+        {
+          "name": "Get Top 10 Scores",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/scores/top10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "scores", "top10"]
+            },
+            "description": "Get top 10 scores from leaderboard"
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Score and Rank",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/scores/user/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "scores", "user", "{{userId}}"]
+            },
+            "description": "Get specific user's score and rank"
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Score - Invalid User",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/scores/user/invalid-user-id",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "scores", "user", "invalid-user-id"]
+            },
+            "description": "Should return 404 for non-existent user"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Score Updates",
+      "item": [
+        {
+          "name": "Update Score - Quest Complete",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"actionId\": \"{{$randomUUID}}\",\n  \"actionType\": \"quest_complete\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/scores/update",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "scores", "update"]
+            },
+            "description": "Update score with quest_complete action (+50 points)"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Score - Level Up",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"actionId\": \"{{$randomUUID}}\",\n  \"actionType\": \"level_up\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/scores/update",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "scores", "update"]
+            },
+            "description": "Update score with level_up action (+100 points)"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Score - Achievement",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"actionId\": \"{{$randomUUID}}\",\n  \"actionType\": \"achievement\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/scores/update",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "scores", "update"]
+            },
+            "description": "Update score with achievement action (+25 points)"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Score - Milestone",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"actionId\": \"{{$randomUUID}}\",\n  \"actionType\": \"milestone\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/scores/update",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "scores", "update"]
+            },
+            "description": "Update score with milestone action (+200 points)"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Score - Daily Challenge",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"actionId\": \"{{$randomUUID}}\",\n  \"actionType\": \"daily_challenge\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/scores/update",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "scores", "update"]
+            },
+            "description": "Update score with daily_challenge action (+75 points)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Error Cases",
+      "item": [
+        {
+          "name": "Update Score - No Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"actionId\": \"{{$randomUUID}}\",\n  \"actionType\": \"quest_complete\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/scores/update",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "scores", "update"]
+            },
+            "description": "Should return 401 - missing authorization"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Score - Invalid Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer invalid-token"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"actionId\": \"{{$randomUUID}}\",\n  \"actionType\": \"quest_complete\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/scores/update",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "scores", "update"]
+            },
+            "description": "Should return 401 - invalid token"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Score - Missing actionId",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"actionType\": \"quest_complete\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/scores/update",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "scores", "update"]
+            },
+            "description": "Should return 400 - missing actionId"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Score - Missing actionType",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"actionId\": \"{{$randomUUID}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/scores/update",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "scores", "update"]
+            },
+            "description": "Should return 400 - missing actionType"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Score - Invalid Action Type",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"actionId\": \"{{$randomUUID}}\",\n  \"actionType\": \"invalid_action\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/scores/update",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "scores", "update"]
+            },
+            "description": "Should return 400 - invalid action type"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string",
+      "description": "JWT token for authentication"
+    },
+    {
+      "key": "userId",
+      "value": "",
+      "type": "string",
+      "description": "User ID for testing"
+    }
+  ]
+}
