@@ -34,6 +34,13 @@ function sum_to_n_c(n: number): number {
     return n + sum_to_n_c(n - 1);
 }
 
+/**
+ * Approach D: Gauss Formula
+ */
+// function sum_to_n_d(n: number): number {
+//     return n * (n + 1) / 2;
+// }
+
 // Export functions
 export { sum_to_n_a, sum_to_n_b, sum_to_n_c };
 

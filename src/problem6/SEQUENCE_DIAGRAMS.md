@@ -18,14 +18,14 @@ User A             Frontend              Backend           Redis        Database
   │                  │                      ├─ Verify JWT token            │
   │                  │                      │                 │            │
   │                  │                      ├─ Check idempotency ◄─────┐   │
-  │                  │                      │ (actionId exists?)      │ │
-  │                  │                      │                 │       │ │
-  │                  │                      ├─ BEGIN TRANSACTION      │ │
-  │                  │                      │                 │       │ │
-  │                  │                      ├─ INSERT score_history ──┼─┼─►
-  │                  │                      │ (user_id, action_type,  │ │
-  │                  │                      │  score_increase=50)     │ │
-  │                  │                      │                 │       │ │
+  │                  │                      │ (actionId exists?)       │   │
+  │                  │                      │                 │        │   │
+  │                  │                      ├─ BEGIN TRANSACTION       │   │
+  │                  │                      │                 │        │   │
+  │                  │                      ├─ INSERT score_history ──┼──► │
+  │                  │                      │ (user_id, action_type,   │   │
+  │                  │                      │  score_increase=50)      │   │
+  │                  │                      │                 │        │   │
   │                  │                      ├─ SELECT SUM(score_increase) ──┐
   │                  │                      │ FROM score_history WHERE... │
   │                  │                      │◄────────────────────────────┘
@@ -48,17 +48,17 @@ User A             Frontend              Backend           Redis        Database
   │ Show +50 points  │                      │                 │        │
   │ Animation        │                      │                 │        │
   │                  │                      │                 │        │
-  │              (WebSocket Broadcast to ALL connected users)  │        │
+  │              (WebSocket Broadcast to ALL connected users) │        │
   │                  │                      │                 │        │
   │              ┌───────────────────────────────────────────┐│        │
-  │              │ {type: "score_updated",                  ││        │
-  │              │  userId: "user-a-uuid",                 ││        │
-  │              │  newScore: 1050,                        ││        │
-  │              │  scoreIncrease: 50,                     ││        │
-  │              │  rank: 7}                               ││        │
+  │              │ {type: "score_updated",                  ││         │
+  │              │  userId: "user-a-uuid",                 ││          │
+  │              │  newScore: 1050,                        ││          │
+  │              │  scoreIncrease: 50,                     ││          │
+  │              │  rank: 7}                               ││          │
   │              └───────────────────────────────────────────┘│        │
-  │              /                           │                 │        │
-  │             /                            │                 │        │
+  │              /                          │                 │        │
+  │             /                           │                 │        │
   └────────────/─────────────────────────────────────────────────────────►
               (Other connected users receive update instantly)
 ```
@@ -76,32 +76,32 @@ User A             Frontend              Backend           Redis        Database
 ```
 User B             Frontend              Backend           Redis        Database
   │                  │                      │                 │            │
-  ├─ Load Leaderboard────────────────────►│                 │            │
+  ├─ Load Leaderboard ────────────────────► │                 │            │
   │                  │                      │                 │            │
-  │                  ├─ GET /api/scores/top10                │            │
+  │                  ├─ GET /api/scores/top10                 │            │
   │                  │                      │                 │            │
-  │                  │                      ├─ Check Redis ──────────────┤
-  │                  │                      │ GET leaderboard:top10       │
+  │                  │                      ├─ Check Redis ────────────────┤
+  │                  │                      │ GET leaderboard:top10        │
   │                  │                      │                 │            │
-  │                  │                      │         ✓ HIT! │            │
+  │                  │                      │         ✓ HIT!  │            │
   │                  │                      │◄────────────────┤            │
   │                  │                      │ {user1: 5000,   │            │
   │                  │                      │  user2: 4950,   │            │
   │                  │                      │  ...}           │            │
   │                  │                      │                 │            │
   │                  │◄──── 200 OK ─────────┤                 │            │
-  │                  │ Instant response      │                 │            │
+  │                  │ Instant response     │                 │            │
   │       Instant    │                      │                 │            │
   │ Display ◄────────┤                      │                 │            │
   │                  │                      │                 │            │
-  │              ┌─────────────────────────────────────────┐│            │
-  │              │ Top 10 Users (From Redis Cache):       ││            │
-  │              │ 1. Champion - 5000 pts                 ││            │
-  │              │ 2. Player2  - 4950 pts                 ││            │
-  │              │ ...                                     ││            │
-  │              │ 10. TenthPlace - 4500 pts              ││            │
-  │              │ Response Time: 5ms ✓                  ││            │
-  │              └─────────────────────────────────────────┘│            │
+  │              ┌─────────────────────────────────────────┐  │            │
+  │              │ Top 10 Users (From Redis Cache):       ││               │
+  │              │ 1. Champion - 5000 pts                 ││               │
+  │              │ 2. Player2  - 4950 pts                 ││               │
+  │              │ ...                                     │               │
+  │              │ 10. TenthPlace - 4500 pts              ││               │
+  │              │ Response Time: 5ms ✓                  ││                │
+  │              └─────────────────────────────────────────┘│              │
 ```
 
 **Cache Statistics**:
@@ -117,34 +117,32 @@ User B             Frontend              Backend           Redis        Database
 ```
 User C             Frontend              Backend           Redis        Database
   │                  │                      │                 │            │
-  ├─ Load Leaderboard────────────────────►│                 │            │
+  ├─ Load Leaderboard ────────────────────► │                 │            │
   │                  │                      │                 │            │
-  │                  ├─ GET /api/scores/top10                │            │
+  │                  ├─ GET /api/scores/top10                 │            │
   │                  │                      │                 │            │
-  │                  │                      ├─ Check Redis ──────────────┤
-  │                  │                      │ GET leaderboard:top10       │
+  │                  │                      ├─ Check Redis ────────────────┤
+  │                  │                      │ GET leaderboard:top10        │
   │                  │                      │                 │            │
-  │                  │                      │       ✗ MISS!  │            │
+  │                  │                      │       ✗ MISS!  │             │
   │                  │                      │◄─────(nil)──────┤            │
   │                  │                      │                 │            │
-  │                  │                      ├─ Calculate top 10 ─────────►│
-  │                  │                      │ SELECT ROW_NUMBER(), u.name,│
-  │                  │                      │ SUM(s.score_increase) total │
-  │                  │                      │ FROM score_history s        │
-  │                  │                      │ JOIN users u...             │
-  │                  │                      │ GROUP BY user_id            │
-  │                  │                      │ ORDER BY total DESC         │
-  │                  │                      │ LIMIT 10                    │
+  │                  │                      ├─ Calculate top 10 ─────────► │
+  │                  │                      │ SELECT ROW_NUMBER(), u.name, │
+  │                  │                      │ SUM(s.score_increase) total  │
+  │                  │                      │ FROM score_history s         │
+  │                  │                      │ ORDER BY total DESC          │
+  │                  │                      │ LIMIT 10                     │
   │                  │                      │                 │            │
   │                  │                      │◄────────────────┤            │
   │                  │                      │ Rows: {...}     │            │
   │                  │                      │                 │            │
-  │                  │                      ├─ Cache result ──────────────┤
-  │                  │                      │ ZADD leaderboard:scores ... │
-  │                  │                      │ EXPIRE 5 minutes            │
+  │                  │                      ├─ Cache result ───────────────┤
+  │                  │                      │ ZADD leaderboard:scores ...  │
+  │                  │                      │ EXPIRE 5 minutes             │
   │                  │                      │                 │            │
   │                  │◄──── 200 OK ─────────┤                 │            │
-  │                  │ Result from DB        │                 │            │
+  │                  │ Result from DB       │                 │            │
   │       Display    │                      │                 │            │
   │◄─────────────────┤                      │                 │            │
   │ Response Time:   │                      │                 │            │
@@ -166,11 +164,11 @@ User C             Frontend              Backend           Redis        Database
 ```
 User A (Connected)  Backend              Redis         User B (Just Connected)
     │                 │                    │                    │
-    │◄─── WS /ws/scoreboard ─────────────►│                    │
+    │◄─── WS /ws/scoreboard ─────────────► │                    │
     │ (Connection established)             │                    │
     │                 │                    │                    │
     ├─ Send: onConnect event               │                    │
-    │◄─── {type: "connected",             │                    │
+    │◄─── {type: "connected",              │                    │
     │     data: top10}                     │                    │
     │                 │                    │                    │
     │ (Listening...)  │                    │                    │
@@ -179,24 +177,24 @@ User A (Connected)  Backend              Redis         User B (Just Connected)
     │                 │◄─ POST /api/scores/update ──────────────┤
     │                 │                    │                    │
     │                 ├─ UPDATE Score History               ◄───┤ (waiting)
-    │                 ├─ ZADD Redis                            │
-    │                 ├─ DEL top10 cache                       │
+    │                 ├─ ZADD Redis                             │
+    │                 ├─ DEL top10 cache                        │
     │                 │                    │                    │
-    │◄─────────────────┤ WebSocket Broadcast:               ┌───────────┐
-    │ {type: "score_   │ {type: "score_updated",             │ (just      │
-    │  updated",       │  userId: "...",                     │  connected)│
-    │  rank: 3,        │  newScore: 5100,                    │           │
-    │  newScore: 5100} │  scoreIncrease: 50}               ┌─┴───────┐   │
-    │                 │                    │               │         │   │
-    │ UI Updates      │                    │    Receives same      │   │
+    │◄────────────────┤ WebSocket Broadcast:                ┌───────────┐
+    │ {type: "score_  │ {type: "score_updated",             │ (just     │
+    │  updated",      │  userId: "...",                     │ connected)│
+    │  rank: 3,       │  newScore: 5100,                    │           │
+    │  newScore: 5100}│  scoreIncrease: 50}               ┌─┴───────┐   │
+    │                 │                    │              │         │   │
+    │ UI Updates      │                    │    Receives same       │   │
     │ Show animation  │                    │◄─── message ───────────┘   │
     │ 3rd place now   │                    │ {type: "score_updated"...} │
     │                 │                    │                    │       │
-    │                 │                    │  Gets initial top10 │       │
-    │                 │    Cache hit on next request ─────────►│       │
-    │                 │    GET /api/scores/top10 │           │       │
-    │                 │◄─────────────────────────────────────►│       │
-    │                 │         Latest from Redis cache        │       │
+    │                 │                    │  Gets initial top10│       │
+    │                 │    Cache hit on next request ─────────► │       │
+    │                 │    GET /api/scores/top10 │              │       │
+    │                 │◄─────────────────────────────────────►  │       │
+    │                 │         Latest from Redis cache         │       │
     │                 │                    │                  UI shows  │
     │                 │                    │                  latest ✓  │
 ```

@@ -125,7 +125,7 @@ describe('API Routes', () => {
                 });
 
             expect(response.status).toBe(400);
-            expect(response.body.error).toContain('email');
+            expect(response.body.details).toContain('email');
         });
 
         it('should return 400 for negative age', async () => {
@@ -138,7 +138,7 @@ describe('API Routes', () => {
                 });
 
             expect(response.status).toBe(400);
-            expect(response.body.error).toContain('Age');
+            expect(response.body.details).toContain('age');
         });
 
         it('should return 400 for non-numeric age', async () => {
