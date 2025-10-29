@@ -29,14 +29,14 @@ The script will:
 
 ## Manual Quick Start Guide
 
-### Problem 4 - Palindrome Checking
+### Problem 4 - Three Ways to Sum to n
 
 ```bash
 cd src/problem4
 npx ts-node index.ts
 ```
 
-**Tech**: TypeScript | **Purpose**: Palindrome algorithm implementation
+**Tech**: TypeScript | **Purpose**: Sum calculation using 3 different approaches (Loop, Array.reduce, Recursive)
 
 ---
 
@@ -62,7 +62,7 @@ npm test             # Terminal 2
 - Input validation
 - Comprehensive test suite (90+ tests)
 
-**Endpoints**: http://localhost:5000
+**Endpoints**: http://localhost:3000
 
 ---
 
