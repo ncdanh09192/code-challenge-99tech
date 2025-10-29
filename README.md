@@ -4,7 +4,30 @@ Repository containing solutions for 99Tech Code Challenge problems.
 
 Note: If you fork this repository, your responses may be publicly linked to this repo.
 
-## Quick Start Guide
+---
+
+## 🚀 Quickest Setup (Recommended)
+
+```bash
+# Clone repository
+git clone <repo-url>
+cd code-challenge-99tech
+
+# Run interactive setup script (choose problem from menu)
+bash setup.sh
+```
+
+The script will:
+1. Show a menu to select Problem 4, 5, or 6
+2. Install dependencies automatically
+3. Start the selected problem
+4. Display access URLs
+
+**Requirements**: Node.js 18+ (Docker required for Problem 6)
+
+---
+
+## Manual Quick Start Guide
 
 ### Problem 4 - Palindrome Checking
 
