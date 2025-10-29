@@ -12,14 +12,24 @@ This is the **99Tech Code Challenge #1** repository - a coding challenge submiss
 
 ```
 src/
-├── problem1/        # Problem 1 solution (.keep file - needs implementation)
-├── problem2/        # Problem 2 solution (Fancy Form - HTML/CSS/JS swap form)
-│   ├── index.html   # Form UI with input fields
-│   ├── script.js    # JavaScript logic (currently empty)
-│   └── style.css    # Basic styling
-├── problem3/        # Problem 3 solution (.keep file - needs implementation)
-├── problem4/        # Problem 4 solution (.keep file - needs implementation)
-└── problem5/        # Problem 5 solution (.keep file - needs implementation)
+├── problem1/              # Empty folder
+├── problem2/              # Swap Form (HTML/CSS/JS)
+├── problem3/              # Empty folder
+├── problem4/              # Palindrome Checker (TypeScript)
+│   ├── README.md
+│   └── index.ts
+├── problem5/              # CRUD API (Node.js/Express)
+│   ├── README.md
+│   ├── Makefile
+│   ├── package.json
+│   └── src/
+├── problem6/              # Real-time Leaderboard (Docker)
+│   ├── README.md
+│   ├── Makefile
+│   ├── docker-compose.yml
+│   ├── package.json
+│   ├── public/
+│   └── src/
 ```
 
 ## Problems Status
@@ -27,8 +37,9 @@ src/
 - **Problem 1**: Not started (empty folder)
 - **Problem 2**: Started - HTML/CSS layout for swap form, JavaScript needs implementation
 - **Problem 3**: Not started (empty folder)
-- **Problem 4**: Not started (empty folder)
-- **Problem 5**: Not started (empty folder)
+- **Problem 4**: ✅ Completed - Palindrome Checking Algorithm
+- **Problem 5**: ✅ Completed - Backend CRUD API Server
+- **Problem 6**: ✅ Completed - Real-time Leaderboard System
 
 ## Problem 2 Details
 
@@ -103,6 +114,61 @@ npm test          # Run tests
 - **Edge cases & error scenarios** - Invalid inputs, duplicates, not found errors
 
 See `src/problem5/TESTING.md` for detailed test documentation.
+
+## Problem 4 (Palindrome Checking)
+
+### Quick Start
+```bash
+cd src/problem4
+npx ts-node index.ts
+```
+
+### Description
+Palindrome checking algorithm with multiple methods (simple string reversal, two-pointer approach, recursive method).
+
+### Tech Stack
+- **TypeScript** - Type-safe implementation
+
+---
+
+## Problem 6 (Real-time Leaderboard System)
+
+### Quick Start
+```bash
+cd src/problem6
+make start
+```
+
+### Description
+Production-ready leaderboard system with:
+- Redis Sorted Set caching for top 10 scores
+- Real-time WebSocket updates
+- JWT authentication
+- Docker Compose deployment
+- Interactive frontend dashboard
+
+### Features
+- 6 REST API endpoints
+- 95% cache hit rate (3-6x performance improvement)
+- WebSocket for real-time updates
+- Idempotency protection
+- SQLite database
+
+### Running & Testing
+```bash
+make start          # Start services (easiest)
+make test           # Run tests
+make logs           # View logs
+make stop           # Stop services
+make help           # View all commands
+```
+
+**Access**: `http://localhost:8000`
+
+### Documentation
+See `src/problem6/README.md` for detailed architecture and configuration.
+
+---
 
 ## Git Configuration
 
